@@ -1,0 +1,33 @@
+<div class="details-container">
+  <!-- Apartment Image -->
+  <img [src]="apartment.image" alt="{{ apartment.title }}" class="details-image" />
+
+  <!-- Apartment Details -->
+  <div class="details-content">
+    <h1>{{ apartment.title }}</h1>
+    <p><strong>Location:</strong> {{ apartment.location }}</p>
+    <p><strong>Price:</strong> ${{ apartment.price }}/month</p>
+    <p><strong>Description:</strong> {{ apartment.description }}</p>
+    <p><strong>Amenities:</strong> {{ apartment.amenities.join(', ') }}</p>
+    <button class="btn btn-primary" (click)="goBack()">Back to Listings</button>
+  </div>
+
+  <!-- Comments Section -->
+  <div class="comments-section">
+    <h2>Comments</h2>
+    <!-- List of Comments -->
+    <ul class="comments-list">
+      <li *ngFor="let comment of comments" class="comment-item">
+        <strong>{{ comment.author }}:</strong> {{ comment.text }}
+      </li>
+    </ul>
+
+    <!-- Add Comment Form -->
+    <form [formGroup]="commentForm" (ngSubmit)="addComment()">
+      <textarea formControlName="comment" placeholder="Write your comment..." class="comment-input"></textarea>
+      <button type="submit" class="btn btn-secondary" [disabled]="commentForm.invalid">
+        Add Comment
+      </button>
+    </form>
+  </div>
+</div>

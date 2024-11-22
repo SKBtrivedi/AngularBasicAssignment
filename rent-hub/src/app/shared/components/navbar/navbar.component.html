@@ -1,0 +1,21 @@
+<nav class="navbar">
+  <div class="navbar-container">
+    <!-- Left-aligned Logo -->
+    <a routerLink="/" class="navbar-logo">RentHub</a>
+
+    <!-- Right-aligned Links and Buttons -->
+    <div class="navbar-right">
+      <ul class="navbar-links">
+        <li><a routerLink="/listings" routerLinkActive="active">Listings</a></li>
+        <li *ngIf="isLoggedIn"><a routerLink="/favorites" routerLinkActive="active">Favorites</a></li>
+        <li *ngIf="isLoggedIn"><a routerLink="/create-post" routerLinkActive="active">Create Post</a></li>
+        <li *ngIf="isLoggedIn"><a routerLink="/profile" routerLinkActive="active">Profile</a></li>
+      </ul>
+      <div class="navbar-user">
+        <button *ngIf="isLoggedIn" class="btn btn-secondary" (click)="logout()">Logout</button>
+        <button *ngIf="!isLoggedIn" class="btn btn-primary" routerLink="/login">Login</button>
+        <button *ngIf="!isLoggedIn" class="btn btn-secondary" routerLink="/signup">Sign Up</button>
+      </div>
+    </div>
+  </div>
+</nav>

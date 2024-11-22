@@ -1,0 +1,83 @@
+<div id="apartmentCarousel" class="carousel slide mb-4" data-bs-ride="carousel">
+  <!-- Carousel -->
+  <div class="carousel-indicators">
+    <button *ngFor="let apt of highlightedApartments; let i = index" type="button" data-bs-target="#apartmentCarousel"
+      [attr.data-bs-slide-to]="i" [class.active]="i === 0" [attr.aria-current]="i === 0 ? 'true' : null"
+      [attr.aria-label]="'Slide ' + (i + 1)"></button>
+  </div>
+
+  <div class="carousel-inner">
+    <div *ngFor="let apt of highlightedApartments; let i = index" class="carousel-item" [class.active]="i === 0">
+      <img [src]="apt.image" class="d-block w-100 carousel-image" alt="{{ apt.title }}" />
+      <div class="carousel-caption d-none d-md-block">
+        <h5>{{ apt.title }}</h5>
+        <p>{{ apt.description }}</p>
+      </div>
+    </div>
+  </div>
+
+  <button class="carousel-control-prev" type="button" data-bs-target="#apartmentCarousel" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#apartmentCarousel" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+
+<!-- Filters -->
+<div class="filters-container mb-4">
+  <input type="text" [(ngModel)]="searchText" placeholder="Search by title" (input)="applyFilters()"
+    class="filter-input" />
+
+  <select [(ngModel)]="locationFilter" (change)="applyFilters()" class="filter-select">
+    <option value="">All Locations</option>
+    <option value="Downtown">Downtown</option>
+    <option value="Uptown">Uptown</option>
+    <option value="Suburbs">Suburbs</option>
+  </select>
+
+  <input type="number" [(ngModel)]="minPrice" placeholder="Min Price" (input)="applyFilters()" class="filter-input" />
+  <input type="number" [(ngModel)]="maxPrice" placeholder="Max Price" (input)="applyFilters()" class="filter-input" />
+
+  <div class="filter-amenities">
+    <strong>Amenities:</strong>
+    <div class="amenities-list">
+      <label *ngFor="let amenity of amenitiesList">
+        <input type="checkbox" [checked]="selectedAmenities.includes(amenity)"
+          (change)="toggleAmenitySelection(amenity)" />
+        {{ amenity }}
+      </label>
+    </div>
+  </div>
+</div>
+
+<!-- Apartment Cards -->
+<div *ngIf="paginatedApartments!.length > 0; else noResults">
+  <div class="grid-container">
+    <div class="apartment-card" *ngFor="let apartment of paginatedApartments">
+      <img [src]="apartment.image" alt="{{ apartment.title }}" class="apartment-image" />
+      <h2>{{ apartment.title }}</h2>
+      <p><strong>Description:</strong> {{ apartment.description }}</p>
+      <p><strong>Location:</strong> {{ apartment.location }}</p>
+      <p><strong>Price:</strong> ${{ apartment.price }}/month</p>
+      <p><strong>Amenities:</strong> {{ apartment.amenities.join(', ') }}</p>
+      <button (click)="viewDetails(apartment.id)" class="btn btn-primary">View Details</button>
+      <button (click)="toggleFavorite(apartment.id)" class="btn btn-secondary">
+        {{ apartment.isFavorite ? 'Unfavorite' : 'Mark as Favorite' }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Pagination Section -->
+  <div class="pagination-controls">
+    <button (click)="prevPage()" [disabled]="currentPage === 1">Previous</button>
+    <span style="align-content: center;">Page {{ currentPage }} of {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+  </div>
+</div>
+
+<ng-template #noResults>
+  <p>No results found.</p>
+</ng-template>

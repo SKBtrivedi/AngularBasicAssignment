@@ -1,0 +1,36 @@
+<div class="form-container">
+  <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+    <h2>Sign Up</h2>
+
+    <!-- Name Field -->
+    <label for="name">Name</label>
+    <input id="name" formControlName="name" placeholder="Enter your name" />
+    <small *ngIf="signupForm.get('name')?.invalid && signupForm.get('name')?.touched">
+      Name is required (min 3 characters).
+    </small>
+
+    <!-- Email Field -->
+    <label for="email">Email</label>
+    <input id="email" formControlName="email" placeholder="Enter your email" />
+    <small *ngIf="signupForm.get('email')?.invalid && signupForm.get('email')?.touched">
+      A valid email is required.
+    </small>
+
+    <!-- Password Field -->
+    <label for="password">Password</label>
+    <input id="password" type="password" formControlName="password" placeholder="Enter your password" />
+    <small *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.touched">
+      Password is required (min 6 characters).
+    </small>
+
+    <!-- Confirm Password Field -->
+    <label for="confirmPassword">Confirm Password</label>
+    <input id="confirmPassword" type="password" formControlName="confirmPassword" placeholder="Confirm your password" />
+    <small *ngIf="signupForm.get('confirmPassword')?.invalid && signupForm.get('confirmPassword')?.touched">
+      Please confirm your password.
+    </small>
+
+    <!-- Submit Button -->
+    <button type="submit" [disabled]="signupForm.invalid">Sign Up</button>
+  </form>
+</div>

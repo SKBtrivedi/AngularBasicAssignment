@@ -1,0 +1,130 @@
+<div class="create-post-container">
+  <h2 *ngIf="!previewMode">Create New Post</h2>
+  <h2 *ngIf="previewMode">Preview Post</h2>
+
+  <!-- Form Section -->
+  <form *ngIf="!previewMode" [formGroup]="postForm" (ngSubmit)="onSubmit()">
+    <!-- Property Information -->
+    <div class="form-section">
+      <h3>Property Information</h3>
+      <label>
+        Title:
+        <input formControlName="title" type="text" placeholder="Enter property title" />
+        <small *ngIf="postForm.get('title')?.invalid && postForm.get('title')?.touched">
+          Title is required.
+        </small>
+      </label>
+      <label>
+        Description:
+        <textarea formControlName="description" placeholder="Enter property description"></textarea>
+        <small *ngIf="postForm.get('description')?.invalid && postForm.get('description')?.touched">
+          Description is required.
+        </small>
+      </label>
+      <label>
+        Price:
+        <input formControlName="price" type="number" placeholder="Enter property price" />
+        <small *ngIf="postForm.get('price')?.invalid && postForm.get('price')?.touched">
+          Valid price is required (greater than 0).
+        </small>
+      </label>
+      <label>
+        Upload Image:
+        <input type="file" (change)="onFileSelect($event)" />
+        <small *ngIf="imageError">{{ imageError }}</small>
+      </label>
+    </div>
+
+    <!-- Contact Details -->
+    <div class="form-section">
+      <h3>Contact Details</h3>
+      <label>
+        Contact Name:
+        <input formControlName="contactName" type="text" placeholder="Enter contact name" />
+        <small *ngIf="postForm.get('contactName')?.invalid && postForm.get('contactName')?.touched">
+          Contact name is required.
+        </small>
+      </label>
+      <label>
+        Contact Number:
+        <input formControlName="contactNumber" type="text" placeholder="Enter contact number" />
+        <small *ngIf="postForm.get('contactNumber')?.invalid && postForm.get('contactNumber')?.touched">
+          Enter a valid 10-digit contact number.
+        </small>
+      </label>
+    </div>
+
+    <!-- Additional Information -->
+    <div class="form-section">
+      <h3>Additional Information</h3>
+      <div class="inline-input">
+        <label>
+          <input formControlName="furnished" type="checkbox" />
+          Furnished
+        </label>
+      </div>
+
+      <div>
+        <strong>Amenities:</strong>
+        <div class="amenities-grid">
+          <label *ngFor="let amenity of amenities">
+            <input type="checkbox" [value]="amenity" (change)="toggleAmenitySelection(amenity)" />
+            {{ amenity }}
+          </label>
+        </div>
+        <small *ngIf="!isAnyAmenitySelected && postForm.touched">
+          Please select at least one amenity.
+        </small>
+      </div>
+
+      <div>
+        <strong>Vegetarian Preference:</strong>
+        <div class="radio-group">
+          <label>
+            <input formControlName="vegetarian" type="radio" [value]="true" />
+            Vegetarian
+          </label>
+          <label>
+            <input formControlName="vegetarian" type="radio" [value]="false" />
+            Non-Vegetarian
+          </label>
+        </div>
+        <small *ngIf="postForm.get('vegetarian')?.invalid && postForm.get('vegetarian')?.touched">
+          Vegetarian preference is required.
+        </small>
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="form-actions">
+      <button type="button" class="btn btn-secondary" (click)="previewPost()">Preview</button>
+      <button type="submit" class="btn btn-primary" [disabled]="postForm.invalid || !isAnyAmenitySelected">
+        Submit
+      </button>
+    </div>
+  </form>
+
+  <!-- Preview Section -->
+  <div *ngIf="previewMode" class="preview-section">
+    <h3>Preview</h3>
+    <p><strong>Title:</strong> {{ postForm.value.title }}</p>
+    <p><strong>Description:</strong> {{ postForm.value.description }}</p>
+    <p><strong>Price:</strong> ${{ postForm.value.price }}</p>
+    <p><strong>Contact Name:</strong> {{ postForm.value.contactName }}</p>
+    <p><strong>Contact Number:</strong> {{ postForm.value.contactNumber }}</p>
+    <p><strong>Furnished:</strong> {{ postForm.value.furnished ? 'Yes' : 'No' }}</p>
+    <p><strong>Amenities:</strong> {{ selectedAmenities.join(', ') }}</p>
+    <p>
+      <strong>Vegetarian Preference:</strong>
+      {{ postForm.value.vegetarian ? 'Vegetarian' : 'Non-Vegetarian' }}
+    </p>
+    <div *ngIf="selectedImage">
+      <p><strong>Uploaded Image:</strong></p>
+      <img [src]="selectedImage" alt="Preview Image" class="preview-image" />
+    </div>
+    <div class="form-actions">
+      <button type="button" class="btn btn-secondary" (click)="cancelPreview()">Edit</button>
+      <button type="submit" class="btn btn-primary" (click)="onSubmit()">Submit</button>
+    </div>
+  </div>
+</div>

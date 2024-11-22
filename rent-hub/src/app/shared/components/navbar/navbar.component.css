@@ -1,0 +1,84 @@
+.navbar {
+  background-color: #343a40; /* Dark background for the navbar */
+  padding: 10px 20px; /* Padding around the navbar */
+  margin-bottom: 20px;
+
+  .navbar-container {
+    display: flex;
+    justify-content: space-between; /* Logo on the left, others on the right */
+    align-items: center;
+    width: 100%;
+    max-width: 1200px; /* Optional: restrict max-width for better alignment */
+    margin: 0 auto; /* Center the navbar horizontally */
+  }
+
+  /* Logo on the left */
+  .navbar-logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #fff;
+    text-decoration: none;
+
+    &:hover {
+      color: #f8f9fa;
+    }
+  }
+
+  /* Links and buttons on the right */
+  .navbar-right {
+    display: flex;
+    align-items: baseline; /* Ensures links and buttons align vertically */
+    gap: 20px; /* Space between links and buttons */
+
+    .navbar-links {
+      list-style: none;
+      display: flex;
+      gap: 20px; /* Space between links */
+
+      li {
+        a {
+          color: #fff;
+          text-decoration: none;
+          font-size: 1rem;
+
+          &:hover,
+          &.active {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+
+    .navbar-user {
+      display: flex;
+      gap: 10px; /* Space between buttons */
+
+      .btn {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+        border-radius: 4px;
+        cursor: pointer;
+
+        &.btn-primary {
+          background-color: #007bff;
+          color: #fff;
+          border: none;
+
+          &:hover {
+            background-color: #0056b3;
+          }
+        }
+
+        &.btn-secondary {
+          background-color: #6c757d;
+          color: #fff;
+          border: none;
+
+          &:hover {
+            background-color: #5a6268;
+          }
+        }
+      }
+    }
+  }
+}
